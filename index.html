@@ -30,12 +30,32 @@ const {Navbar,Footer,SectionHeader,CaseStudyCard,QuoteCard,LogoWall,Button,StatB
 const A='assets/';
 function Hero(){
   return <section style={{padding:'120px 24px 60px',textAlign:'center',maxWidth:1020,margin:'0 auto'}}>
-    <h1 style={{margin:0,fontSize:'clamp(36px,4.5vw,68px)',fontWeight:600,letterSpacing:'var(--tracking-display)',lineHeight:'var(--leading-tight)'}}>Connect your AI to all data it needs,<br/>in one entry point.</h1>
-    <p style={{margin:'26px auto 0',maxWidth:640,fontSize:16,lineHeight:1.25,color:'var(--text-muted)'}}>An open-source library that lets AI agents declare what data they need - and resolves how to fetch it. Data pipelines that are traceable, auditable, and scalable.</p>
+    <h1 style={{margin:0,fontSize:'clamp(36px,4.5vw,68px)',fontWeight:600,letterSpacing:'var(--tracking-display)',lineHeight:'var(--leading-tight)'}}>Let the LLM decide,<br/>not process.</h1>
+    <p style={{margin:'26px auto 0',maxWidth:640,fontSize:16,lineHeight:1.25,color:'var(--text-muted)'}}>LLMs are remarkably good at understanding what you want - and much less remarkable as data-processing engines. mloda is an open-source library that lets your agent declare the data it needs, while deterministic software resolves, computes, and delivers it. Traceable, auditable, scalable.</p>
     <div style={{display:'flex',gap:12,justifyContent:'center',marginTop:34}}>
       <Button label="Talk to us" variant="ink" size="lg" href="https://calendly.com/hello-mloda/30min"/>
       <Button label="Try for free" variant="primary" size="lg" href="https://github.com/mloda-ai/mloda"/>
     </div>
+  </section>;
+}
+function Declaration(){
+  const owns=[
+    ['The LLM owns the what','Understanding intent, choosing information, composing capabilities, reasoning about results.'],
+    ['mloda owns the how','Joins, filters, transformations, validation, execution, and lineage - deterministic and reusable.']
+  ];
+  return <section style={{padding:'20px 24px 56px',maxWidth:880,margin:'0 auto',textAlign:'center'}}>
+    <p style={{margin:'0 auto',maxWidth:620,fontSize:'var(--text-body-size)',lineHeight:'var(--leading-body)',color:'var(--text-muted)'}}>An agent that needs to understand a customer should not retrieve three tables, remember the join keys, and assemble context by hand. It should be able to say:</p>
+    <div style={{margin:'26px auto 0',maxWidth:640,background:'var(--ink-900)',color:'var(--text-on-dark)',borderRadius:'var(--radius-card)',padding:'26px 30px',fontFamily:'var(--font-mono)',fontSize:15.5,lineHeight:1.6,textAlign:'left'}}>
+      <span style={{color:'var(--text-on-dark-2)'}}>&gt; </span>Give me the customer, their recent purchases, and their <span style={{color:'#7BCB89'}}>average order value</span> for the last six months.
+    </div>
+    <p style={{margin:'26px auto 0',maxWidth:620,fontSize:'var(--text-body-size)',lineHeight:'var(--leading-body)',color:'var(--text-muted)'}}>That is the declaration. mloda takes it from there: it discovers the features, resolves their dependencies, connects the sources, runs the computation, and returns the result in the shape the agent asked for.</p>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:20,marginTop:36,textAlign:'left'}}>
+      {owns.map(([h,p])=><div key={h} style={{background:'var(--paper-1)',border:'1px solid var(--line-light)',borderRadius:'var(--radius-card)',padding:'22px 24px'}}>
+        <h3 style={{margin:0,fontSize:18,fontWeight:600,color:'var(--accent)'}}>{h}</h3>
+        <p style={{margin:'8px 0 0',fontSize:14.5,lineHeight:1.55,color:'var(--text-muted)'}}>{p}</p>
+      </div>)}
+    </div>
+    <p style={{margin:'34px auto 0',maxWidth:620,fontSize:17,fontWeight:600,lineHeight:1.5,color:'var(--text-ink)'}}>The result is not an LLM with more data stuffed into its context. It is an LLM with a data system it can operate declaratively.</p>
   </section>;
 }
 function Slideshow({interval=2200,bright}){
@@ -235,8 +255,9 @@ function Plugins(){
         return row;
       })}
     </div>
-    
+
     <PluginAnimOptions/>
+    <p style={{margin:'44px auto 0',maxWidth:640,fontSize:'var(--text-body-size)',lineHeight:'var(--leading-body)',color:'var(--text-muted)',textAlign:'center'}}>Missing a capability? Your LLM can help create it - a small, reusable plugin instead of one-off reasoning buried in a prompt. From then on, agents simply declare the result.</p>
   </section>;
 }
 function HowItWorks(){
@@ -409,6 +430,7 @@ function App(){
   <a href="https://github.com/mloda-ai/mloda" target="_blank" style={{display:'block',background:'var(--accent)',color:'#fff',textAlign:'center',padding:'5px 12px',fontSize:13,fontFamily:'var(--font-mono)',textDecoration:'none'}}>mloda 0.10.0 is out — free and open source under Apache-2.0 →</a>
   <Navbar logoSrc={A+'mloda-wordmark-green.svg'} items={['Products','Features','Docs','GitHub','About']} cta="Try mloda now" ctaHref="https://github.com/mloda-ai/mloda"/>
   <Hero/>
+  <Declaration/>
   <ProductPanel interval={motion.slide} bright={t.panel==='bright'}/>
   <DataSources logoWall={<LogoWall names={['CSV','JSON','Parquet','Feather','ORC','Plain text','Markdown','YAML','SQLite','API / runtime data']} speed={motion.wall}/>}/>
   <Plugins/>
