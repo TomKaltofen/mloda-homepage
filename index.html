@@ -1,5 +1,5 @@
 <!-- @dsCard group="Website" viewport="1440x900" subtitle="mloda homepage" name="mloda Homepage" -->
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>mloda — Homepage</title>
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>mloda Homepage</title>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Schibsted+Grotesk:wght@400;500;600;700&family=Bricolage+Grotesque:wght@400;500;600;700&display=swap">
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -28,18 +28,19 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 loadDS('components/',DS_FILES).then(NS=>{
 const {Navbar,Footer,SectionHeader,CaseStudyCard,QuoteCard,LogoWall,Button,StatBlock,Eyebrow,Tag,IconButton}=NS;
 const A='assets/';
+const DOCS='https://mloda-ai.github.io/mloda/';
 function Hero(){
   return <section style={{padding:'120px 24px 60px',textAlign:'center',maxWidth:1020,margin:'0 auto'}}>
-    <h1 style={{margin:0,fontSize:'clamp(36px,4.5vw,68px)',fontWeight:600,letterSpacing:'var(--tracking-display)',lineHeight:'var(--leading-tight)'}}>Connect your AI to all data it needs,<br/>in one entry point.</h1>
-    <p style={{margin:'26px auto 0',maxWidth:640,fontSize:16,lineHeight:1.25,color:'var(--text-muted)'}}>An open-source library that lets AI agents declare what data they need - and resolves how to fetch it. Data pipelines that are traceable, auditable, and scalable.</p>
+    <h1 style={{margin:0,fontSize:'clamp(36px,4.5vw,68px)',fontWeight:600,letterSpacing:'var(--tracking-display)',lineHeight:'var(--leading-tight)'}}>Let the LLM decide,<br/>not process data.</h1>
+    <p style={{margin:'26px auto 0',maxWidth:660,fontSize:16,lineHeight:1.4,color:'var(--text-muted)'}}>LLMs are remarkable at understanding what you want, and unremarkable at processing data. mloda, a free open-source Python library, splits the work: your AI declares what it needs, deterministic steps produce it, and every value can show how it was made.</p>
     <div style={{display:'flex',gap:12,justifyContent:'center',marginTop:34}}>
       <Button label="Talk to us" variant="ink" size="lg" href="https://calendly.com/hello-mloda/30min"/>
-      <Button label="Try for free" variant="primary" size="lg" href="https://github.com/mloda-ai/mloda"/>
+      <Button label="Free on GitHub" variant="primary" size="lg" href="https://github.com/mloda-ai/mloda"/>
     </div>
   </section>;
 }
 function Slideshow({interval=2200,bright}){
-  const steps=[['1','AI asks'],['2','mloda returns'],['3','Audit trail']];
+  const steps=[['1','The agent asks for the score'],['2','mloda gives back the scores'],['3','How each score was made']];
   const imgs=['mloda-screenshot-1-panel.png','mloda-screenshot-2-panel.png','mloda-screenshot-3-panel.png'];
   const [i,setI]=React.useState(0);
   const [hover,setHover]=React.useState(false);
@@ -68,53 +69,114 @@ function ProductPanel({interval,bright}){
         <div style={{display:'flex',gap:10,alignItems:'center'}}>
           <h2 style={{margin:0,fontSize:'calc(var(--text-h2)*0.82)',fontWeight:600,letterSpacing:'var(--tracking-display)'}}><span style={{fontSize:'var(--text-h2)'}}>See it live:</span><br/>mloda-backed<br/>credit risk agent.</h2>
         </div>
-        <p style={{margin:'20px 0 0',fontSize:17,lineHeight:'var(--leading-body)',color:bright?'var(--text-muted)':'var(--text-on-dark-2)'}}>The agent asks for credit risk scores. mloda pools the data sources, runs the calculations, and returns scored results - with the full audit trail attached.</p>
-        <div style={{display:'flex',gap:12,marginTop:30}}>
-          <Button label="Play with the demo" variant={bright?'ink':'white'} href="#"/>
+        <p style={{margin:'20px 0 0',fontSize:17,lineHeight:'var(--leading-body)',color:bright?'var(--text-muted)':'var(--text-on-dark-2)'}}>The agent asks for the credit risk score. mloda gets the customer and contract data, does the calculations, and gives back a table of scores. For every score you can see which data it read and which steps ran.</p>
+        <div style={{display:'flex',gap:12,marginTop:30,alignItems:'center'}}>
+          <Button label="Talk to us" variant={bright?'ink':'white'} href="https://calendly.com/hello-mloda/30min"/>
+          <span style={{fontFamily:'var(--font-mono)',fontSize:12,letterSpacing:'0.06em',textTransform:'uppercase',color:bright?'var(--text-muted)':'var(--text-on-dark-2)'}}>Live demo coming</span>
         </div>
       </div>
       <Slideshow interval={interval} bright={bright}/>
     </div>
   </section>;
 }
-function StepGraphic({kind}){
-  const acc='var(--accent)',mut='var(--text-ink-2)',mono='var(--font-mono)';
-  const chip=(x,y,w,label)=><g><rect x={x} y={y} width={w} height="26" rx="7" fill="var(--paper-0)" stroke="var(--line-light)"/><text x={x+w/2} y={y+17} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="11" fill={mut}>{label}</text></g>;
-  if(kind==='connect')return <svg viewBox="0 0 340 150" style={{width:'100%',display:'block'}}>
-    {chip(16,14,86,'Postgres')}{chip(16,62,86,'S3 / files')}{chip(16,110,86,'REST API')}
-    {[27,75,123].map(y=><path key={y} d={`M104 ${y} C 140 ${y}, 150 75, 180 75`} fill="none" stroke={mut} strokeWidth="1.5" strokeDasharray="3 4"/>)}
-    <a href="https://github.com/mloda-ai/mloda" target="_blank" style={{cursor:'pointer'}}><rect x="180" y="49" width="130" height="52" rx="12" fill={acc}/>
-    <text x="245" y="71" textAnchor="middle" fontFamily={mono} fontSize="12" fill="#fff">FeatureGroup</text>
-    <text x="245" y="88" textAnchor="middle" fontFamily={mono} fontSize="9.5" fill="rgba(255,255,255,.75)">plugin, not rewrite</text></a>
-  </svg>;
-  if(kind==='declare')return <svg viewBox="0 0 340 150" style={{width:'100%',display:'block'}}>
-    <circle cx="52" cy="75" r="26" fill="var(--paper-0)" stroke="var(--line-light)"/>
-    <circle cx="43" cy="70" r="3.5" fill={mut}/><circle cx="61" cy="70" r="3.5" fill={mut}/>
-    <path d="M42 84 q10 8 20 0" fill="none" stroke={mut} strokeWidth="2" strokeLinecap="round"/>
-    <text x="52" y="122" textAnchor="middle" fontFamily={mono} fontSize="10" fill={mut}>your agent</text>
-    <path d="M86 75 H 122" stroke={mut} strokeWidth="1.5" markerEnd="none"/><path d="M116 69 l8 6 -8 6" fill="none" stroke={mut} strokeWidth="1.5"/>
-    <a href="https://github.com/mloda-ai/mloda" target="_blank" style={{cursor:'pointer'}}><rect x="132" y="30" width="192" height="74" rx="12" fill="var(--ink-900)"/>
-    <text x="148" y="58" fontFamily={mono} fontSize="12" fill="var(--text-on-dark-2)">request = [</text>
-    <text x="162" y="74" fontFamily={mono} fontSize="12" fill="#7BCB89">"customer_ltv",</text>
-    <text x="162" y="90" fontFamily={mono} fontSize="12" fill="#7BCB89">"churn_risk<tspan fill="var(--sand-300)">__scored</tspan>"]</text></a>
-    <path d="M262 96 C 262 112, 250 118, 238 120" fill="none" stroke={mut} strokeWidth="1" strokeDasharray="2 3"/>
-    <text x="132" y="136" fontFamily={mono} fontSize="9.5" fill={mut}>__suffix = optional transform</text>
-  </svg>;
-  return <svg viewBox="0 0 340 150" style={{width:'100%',display:'block'}}>
-    <a href="https://github.com/mloda-ai/mloda" target="_blank"><rect x="16" y="49" width="84" height="52" rx="12" fill={acc} style={{cursor:'pointer'}}/>
-    <text x="58" y="79" textAnchor="middle" fontFamily={mono} fontSize="13" fill="#fff" style={{cursor:'pointer'}}>mloda</text></a>
-    <path d="M100 75 H 136" stroke={mut} strokeWidth="1.5"/><path d="M130 69 l8 6 -8 6" fill="none" stroke={mut} strokeWidth="1.5"/>
-    <g><rect x="146" y="30" width="148" height="90" rx="10" fill="var(--paper-0)" stroke="var(--line-light)"/>
-    {[52,74,96].map((y,i)=><g key={y}><line x1="158" y1={y} x2="282" y2={y} stroke="var(--line-light)"/><rect x="158" y={y-14} width={i===0?52:38} height="8" rx="4" fill={i===0?acc:'var(--paper-2)'} opacity={i===0?0.85:1}/><rect x={i===0?218:204} y={y-14} width="64" height="8" rx="4" fill="var(--paper-2)"/></g>)}
-    <rect x="146" y="108" width="148" height="12" fill="none"/></g>
-    <rect x="230" y="106" width="78" height="24" rx="12" fill="var(--ink-900)"/>
-    <circle cx="244" cy="118" r="4" fill="#7BCB89"/>
-    <text x="252" y="122" fontFamily={mono} fontSize="10" fill="#fff">traced</text>
-    <text x="58" y="122" textAnchor="middle" fontFamily={mono} fontSize="9" fill={mut}>Pandas·Spark·Polars</text>
-  </svg>;
+function ProblemSplit(){
+  const bad=[
+    ['option one','Stuff the context window','Fetch a pile of raw data, put it into the context, and let the model filter, join, and calculate. It works. It is also slow, expensive, a little different every run, and afterwards nobody can explain the number.'],
+    ['option two','Start a data project','Hand it to the data team: fetch, clean, join, wire, for this one question. The wiring is written once and thrown away. The next question starts the next project.']];
+  const owns=[
+    ['the what','The LLM owns the what','Understanding intent, choosing information, composing capabilities, reasoning about results.'],
+    ['the how','mloda owns the how','Joins, filters, transformations, validation, execution, and lineage. Deterministic, and reusable.']];
+  return <section id="why" style={{padding:'36px 24px 48px',maxWidth:1200,margin:'0 auto'}}>
+    <SectionHeader title={<span>Stuff the context,<br/>or start a data project?</span>} lede="Today your AI gets data one of two ways, and both break." align="center"/>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:20,marginTop:40}}>
+      {bad.map(([k,h,p])=><div key={h} style={{background:'var(--paper-1)',border:'1px solid var(--line-light)',borderRadius:'var(--radius-panel)',padding:'26px 28px'}}>
+        <div style={{fontFamily:'var(--font-mono)',fontSize:11,letterSpacing:'0.08em',textTransform:'uppercase',color:'var(--text-muted)'}}>{k}</div>
+        <h3 style={{margin:'8px 0 0',fontSize:21,fontWeight:600}}>{h}</h3>
+        <p style={{margin:'10px 0 0',fontSize:15,lineHeight:1.55,color:'var(--text-muted)'}}>{p}</p>
+      </div>)}
+    </div>
+    <p style={{margin:'44px 0 0',fontSize:'var(--text-h3)',fontWeight:600,textAlign:'center',color:'var(--text-ink)'}}>mloda splits the work instead.</p>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:20,marginTop:24}}>
+      {owns.map(([k,h,p],i)=><div key={h} style={{background:i===1?'var(--ink-900)':'var(--paper-0)',color:i===1?'var(--text-on-dark)':'var(--text-ink)',border:i===1?'1px solid var(--ink-900)':'1.5px solid var(--accent)',borderRadius:'var(--radius-panel)',padding:'26px 28px'}}>
+        <div style={{fontFamily:'var(--font-mono)',fontSize:11,letterSpacing:'0.08em',textTransform:'uppercase',color:i===1?'var(--green-400)':'var(--accent)'}}>{k}</div>
+        <h3 style={{margin:'8px 0 0',fontSize:21,fontWeight:600}}>{h}</h3>
+        <p style={{margin:'10px 0 0',fontSize:15,lineHeight:1.55,color:i===1?'var(--text-on-dark-2)':'var(--text-muted)'}}>{p}</p>
+      </div>)}
+    </div>
+  </section>;
+}
+function Ask(){
+  const M=({t})=><span style={{fontFamily:'var(--font-mono)',fontSize:13,color:'var(--accent)'}}>{t}</span>;
+  const req=`mloda.run_all([
+  Feature("customer"),
+  Feature("recent_purchases"),
+  Feature("order_value__avg_6m")])`;
+  const facts=[
+    ['no glue code','The agent names results. It never learns schemas, join keys, or file paths.'],
+    ['suffixes chain steps',<span>Every <M t="__word"/> after a name is one step: <M t="docs__pii_redacted__chunked__embedded"/>. Take the documents, remove personal data, cut them into pieces, make them searchable.</span>],
+    ['not named, still needed','The customer data lives in three tables. mloda adds the fetching and joining steps you did not name, from what each step declares it needs.']];
+  const label={fontSize:11,letterSpacing:'0.08em',textTransform:'uppercase',color:'var(--text-on-dark-2)'};
+  return <section id="how-it-works" style={{padding:'36px 24px 48px',maxWidth:1200,margin:'0 auto'}}>
+    <SectionHeader title={<span>Declare the result.<br/>mloda works out the rest.</span>} lede="An agent that needs a customer picture should not fetch three tables and remember the join keys. It asks for results by name, and mloda produces them." align="center"/>
+    <div style={{display:'grid',gridTemplateColumns:'1.25fr 1fr',gap:28,marginTop:36,alignItems:'stretch'}}>
+      <div style={{background:'var(--ink-900)',color:'var(--text-on-dark)',borderRadius:'var(--radius-panel)',padding:'22px 26px',fontFamily:'var(--font-mono)',fontSize:13,lineHeight:1.6,overflowX:'auto'}}>
+        <div style={{...label,marginBottom:10}}>the intent</div>
+        <p style={{margin:0,fontFamily:'var(--font-sans)',fontSize:16.5,lineHeight:1.55,fontStyle:'italic',color:'#fff'}}>"Give me the customer, their recent purchases, and their average order value for the last six months."</p>
+        <div style={{...label,margin:'18px 0 8px'}}>the request</div>
+        <pre style={{margin:0,fontFamily:'inherit',whiteSpace:'pre',color:'var(--green-400)'}}>{req}</pre>
+        <div style={{...label,margin:'18px 0 8px'}}>the answer</div>
+        <p style={{margin:0,fontFamily:'var(--font-sans)',fontSize:14.5,lineHeight:1.5,color:'var(--text-on-dark)'}}>A table, ready to use, with the trace of every step attached.</p>
+      </div>
+      <div style={{display:'flex',flexDirection:'column',gap:12}}>
+        {facts.map(([h,p])=><div key={h} style={{background:'var(--paper-1)',border:'1px solid var(--line-light)',borderRadius:'var(--radius-card)',padding:'16px 20px'}}>
+          <div style={{fontFamily:'var(--font-mono)',fontSize:11,letterSpacing:'0.08em',textTransform:'uppercase',color:'var(--accent)'}}>{h}</div>
+          <p style={{margin:'6px 0 0',fontSize:14.5,lineHeight:1.5,color:'var(--text-ink)'}}>{p}</p>
+        </div>)}
+      </div>
+    </div>
+  </section>;
+}
+function StepInCode(){
+  const code=`from mloda.user import mloda, Feature
+from mloda.provider import FeatureGroup
+
+class RiskScore(FeatureGroup):
+    def input_features(self, options, name):
+        return {Feature("income"), Feature("debt")}
+
+    @classmethod
+    def calculate_feature(cls, data, features):
+        data["RiskScore"] = data["debt"] / data["income"]
+        return data`;
+  const call=`risk = mloda.run_all([Feature("RiskScore")])`;
+  const facts=[['You wrote','one step. It names what it needs (income, debt) and how it computes.'],['You asked for','RiskScore. Nothing else.'],['mloda did','find the steps that produce income and debt, run them, run yours, and keep the trace of all three.']];
+  return <section id="one-step" style={{padding:'36px 24px 48px',maxWidth:1200,margin:'0 auto'}}>
+    <SectionHeader title="One step, in code." lede="A step is a small Python class. It says what it needs and how it computes. In the Python API a step is called a FeatureGroup." align="center"/>
+    <div style={{display:'grid',gridTemplateColumns:'1.25fr 1fr',gap:28,marginTop:36,alignItems:'stretch'}}>
+      <div style={{background:'var(--ink-900)',color:'var(--text-on-dark)',borderRadius:'var(--radius-panel)',padding:'22px 26px',fontFamily:'var(--font-mono)',fontSize:13,lineHeight:1.6,overflowX:'auto'}}>
+        <div style={{fontSize:11,letterSpacing:'0.08em',textTransform:'uppercase',color:'var(--text-on-dark-2)',marginBottom:10}}>the step</div>
+        <pre style={{margin:0,fontFamily:'inherit',whiteSpace:'pre'}}>{code}</pre>
+        <div style={{fontSize:11,letterSpacing:'0.08em',textTransform:'uppercase',color:'var(--text-on-dark-2)',margin:'18px 0 8px'}}>the request</div>
+        <pre style={{margin:0,fontFamily:'inherit',whiteSpace:'pre',color:'var(--green-400)'}}>{call}</pre>
+      </div>
+      <div style={{display:'flex',flexDirection:'column',gap:12}}>
+        {facts.map(([h,p])=><div key={h} style={{background:'var(--paper-1)',border:'1px solid var(--line-light)',borderRadius:'var(--radius-card)',padding:'16px 20px'}}>
+          <div style={{fontFamily:'var(--font-mono)',fontSize:11,letterSpacing:'0.08em',textTransform:'uppercase',color:'var(--accent)'}}>{h}</div>
+          <p style={{margin:'6px 0 0',fontSize:14.5,lineHeight:1.5,color:'var(--text-ink)'}}>{p}</p>
+        </div>)}
+        <p style={{margin:'6px 0 0',fontSize:13.5,lineHeight:1.5,color:'var(--text-muted)'}}>mloda is a Python library. Your AI reaches it the way it reaches any Python: a tool call, a script, or a skill you give your coding agent. That is one tool, ask by name, instead of one tool per database, file store and API. A person reaches it from a notebook.</p>
+      </div>
+    </div>
+    <div style={{maxWidth:880,margin:'44px auto 0',background:'var(--paper-1)',border:'1px solid var(--line-light)',borderRadius:'var(--radius-panel)',padding:'26px 30px',textAlign:'center'}}>
+      <h3 style={{margin:0,fontSize:21,fontWeight:600}}>Missing a step? Your AI can write it.</h3>
+      <p style={{margin:'10px auto 0',maxWidth:640,fontSize:15,lineHeight:1.55,color:'var(--text-muted)'}}>When a capability does not exist yet, your coding agent writes it once, as a small plugin your team reviews, instead of reasoning buried in a prompt. From then on no model transforms data by hand, every agent simply declares the result. The library of steps grows with every question you ask.</p>
+    </div>
+    <p style={{margin:'30px auto 0',maxWidth:640,fontSize:14.5,lineHeight:1.5,color:'var(--text-muted)',textAlign:'center'}}>About 30 ready-made steps come with mloda: cleaning, joins, sums and averages, imputation, scaling, scoring, PII redaction, chunking, embedding. The same step definition runs on Pandas, Polars, Spark, or DuckDB.</p>
+    <PluginAnimOptions/>
+  </section>;
 }
 function DataSources({logoWall}){
-  const srcs=[['Databases','Data lakes, warehouses, SQL stores - queried in place, no copies.'],['Tabular data','Dataframes, CSV, tables - native on Pandas, Polars, Spark.'],['Unstructured data','Text, Markdown, PDF - parsed and ready for retrieval.'],['Models & APIs','Third-party and internal services - wrapped once, reused everywhere.']];
+  const srcs=[['Databases','Data lakes, warehouses, SQL stores - queried in place, no copies.'],['Tabular data','Dataframes, CSV, tables - native on Pandas, Polars, Spark.'],['Unstructured data','Text, Markdown, PDF, knowledge graphs. Prepared for RAG and for your AI to search.'],['Models & APIs','Third-party and internal services - wrapped once, reused everywhere.']];
   const ops=['__scored','__aggregated','__normalized','and more'];
   const [hov,setHov]=React.useState(null);
   const [opsOpen,setOpsOpen]=React.useState(false);
@@ -143,11 +205,11 @@ function DataSources({logoWall}){
         <a href="https://github.com/mloda-ai/mloda" target="_blank" onMouseEnter={()=>setGhOpen(true)} onMouseLeave={()=>setGhOpen(false)} style={{position:'relative',zIndex:1,marginLeft:'auto',transform:'translateX(28px)',background:'var(--accent)',color:'#fff',borderRadius:14,padding:'16px 30px',fontFamily:'Helvetica,Arial,sans-serif',fontWeight:600,fontSize:24,textDecoration:'none',cursor:'pointer'}}>mloda
           <div style={{position:'absolute',left:'50%',bottom:76,transform:'translateX(-50%) '+(ghOpen?'translateY(0)':'translateY(6px)'),opacity:(ghOpen&&!opsOpen)?1:0,pointerEvents:'none',transition:'all 250ms var(--ease-brand)',background:'var(--paper-0)',border:'1px solid var(--line-light)',boxShadow:'0 12px 32px rgba(14,18,15,.14)',borderRadius:12,padding:'8px 12px',whiteSpace:'nowrap',fontSize:13,fontWeight:600,color:'var(--accent)'}}>Visit us on GitHub →</div>
           <div onMouseEnter={(e)=>{e.stopPropagation();setOpsOpen(true)}} onMouseLeave={()=>setOpsOpen(false)}
-            onClick={(e)=>{e.preventDefault();e.stopPropagation();const el=document.getElementById('plugins');if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-40,behavior:'smooth'})}}
+            onClick={(e)=>{e.preventDefault();e.stopPropagation();const el=document.getElementById('one-step');if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-40,behavior:'smooth'})}}
             style={{position:'absolute',right:-16,top:'50%',transform:'translateY(-50%)',zIndex:2,cursor:'pointer'}}>
             <div style={{width:32,height:32,borderRadius:'50%',border:'1.5px dashed '+(opsOpen?'var(--accent)':'rgba(255,255,255,.85)'),background:opsOpen?'var(--paper-0)':'var(--accent)',display:'grid',placeItems:'center',fontSize:17,fontWeight:500,lineHeight:1,color:opsOpen?'var(--accent)':'#fff',transition:'all 250ms var(--ease-brand)'}}>+</div>
             <div style={{position:'absolute',left:'50%',bottom:44,transform:'translateX(-50%) '+(opsOpen?'translateY(0)':'translateY(6px)'),opacity:opsOpen?1:0,pointerEvents:'none',transition:'all 250ms var(--ease-brand)',background:'var(--paper-0)',border:'1px solid var(--line-light)',boxShadow:'0 12px 32px rgba(14,18,15,.14)',borderRadius:12,padding:'10px 14px'}}>
-              <div style={{fontSize:13.5,fontWeight:600,color:'var(--accent)',whiteSpace:'nowrap'}}>Data operations →</div>
+              <div style={{fontSize:13.5,fontWeight:600,color:'var(--accent)',whiteSpace:'nowrap'}}>See the steps →</div>
             </div>
           </div>
         </a>
@@ -195,66 +257,49 @@ function PluginAnimOptions(){
   const swapIdx=tick%5;
   const Cap=({t})=><div style={{fontFamily:'var(--font-mono)',fontSize:11,letterSpacing:'0.06em',textTransform:'uppercase',color:'var(--text-muted)',marginTop:8,textAlign:'center'}}>{t}</div>;
   return <div style={{maxWidth:880,margin:'56px auto 0',display:'flex',flexDirection:'column',alignItems:'center',gap:22}}>
-    <p style={{margin:'0 0 6px',fontSize:'var(--text-body-size)',lineHeight:'var(--leading-body)',color:'var(--text-muted)',textAlign:'center'}}>Adjust and reuse what's already there, no rewriting <a href="#" style={{color:'var(--accent)',fontWeight:600,fontStyle:'italic',textDecoration:'none',whiteSpace:'nowrap'}}>→ Live demo</a></p>
+    <p style={{margin:'0 0 6px',fontSize:'var(--text-body-size)',lineHeight:'var(--leading-body)',color:'var(--text-muted)',textAlign:'center'}}>Each step is a small piece of code, written once and reused in every request. Swap one step, the rest stays.</p>
     <div>
       <div key={'rb'+tick} style={{display:'flex',alignItems:'center',opacity:0.75}}>
         {[0,1,2,3,4].map(i=><div key={i} style={{width:46,height:26,background:'#DDE3DE',border:'1px solid #B9C2BA',marginLeft:i?-1:0,animation:'rebuildIn 420ms var(--ease-brand) both',animationDelay:(i*160)+'ms',transformOrigin:'left center'}}/>)}
         <div style={{width:22,height:22,borderRadius:'50%',background:'var(--ink-900)',color:'#fff',display:'grid',placeItems:'center',fontSize:12,lineHeight:1,marginLeft:12}}>✕</div>
       </div>
-      <Cap t="linear pipeline - rewritten every time"/>
+      <Cap t="one long script, rewritten for every new question"/>
     </div>
     <div>
       <div style={{display:'flex',gap:10,alignItems:'center'}}>
         {[0,1,2,3,4].map(i=><div key={i===swapIdx?'s'+tick:i} style={{width:60,height:40,borderRadius:11,background:i===swapIdx?greens[tick%3]:'var(--paper-0)',border:'1.5px solid var(--accent)',boxShadow:i===swapIdx?'0 8px 20px rgba(35,164,85,.35)':'0 2px 8px rgba(14,18,15,.06)',animation:i===swapIdx?'swapSpring 800ms var(--ease-brand) both':'none',transform:i===swapIdx?'scale(1.06)':'scale(1)'}}/>)}
         <div style={{width:26,height:26,borderRadius:'50%',background:'var(--accent)',color:'#fff',display:'grid',placeItems:'center',fontSize:14,marginLeft:4}}>✓</div>
       </div>
-      <Cap t="mloda - swap one plugin, rest untouched"/>
+      <Cap t="mloda: swap one step, the rest stays"/>
     </div>
   </div>;
 }
-function Plugins(){
-  const examples=[
-    ['income','__sum_aggr'],
-    ['age','__avg_aggr'],
-    ['user_query','__injection_checked','__retrieved','__pii_redacted']
-  ];
-  const [tick,setTick]=React.useState(0);
-  const [hover,setHover]=React.useState(false);
-  React.useEffect(()=>{if(hover)return;const t=setInterval(()=>setTick(v=>v+1),6000);return ()=>clearInterval(t)},[hover]);
-  let d=0;
-  return <section id="plugins" style={{padding:'36px 24px 64px',maxWidth:1200,margin:'0 auto'}}>
-    <SectionHeader title={<span>Plug and play data plugins -<br/>define, chain, swap</span>} align="center"/>
-    <p style={{margin:'28px 0 0',fontSize:'var(--text-body-size)',lineHeight:'var(--leading-body)',color:'var(--text-muted)',textAlign:'center'}}>Compose data pipelines like words <a href="#" style={{color:'var(--accent)',fontWeight:600,fontStyle:'italic',textDecoration:'none',whiteSpace:'nowrap'}}>→ Live demo</a></p>
-    <div key={tick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
-      style={{marginTop:22,display:'flex',flexDirection:'column',alignItems:'center',gap:14}}>
-      {examples.map((ex,ri)=>{
-        const row=<div key={ri} style={{display:'flex',alignItems:'center',flexWrap:'wrap',justifyContent:'center',gap:8}}>
-          <div style={{background:'var(--ink-900)',color:'#fff',borderRadius:10,padding:'9px 15px',fontFamily:'var(--font-mono)',fontSize:14.5,fontWeight:500,lineHeight:'19px',animation:'plugIn 400ms var(--ease-brand) both',animationDelay:(d++*450)+'ms'}}>{ex[0]}</div>
-          {ex.slice(1).map(s=><div key={s} style={{borderRadius:10,border:'1px solid var(--accent)',background:'var(--paper-0)',padding:'9px 14px',fontFamily:'var(--font-mono)',fontSize:14,color:'var(--accent)',whiteSpace:'nowrap',lineHeight:'19px',animation:'plugIn 400ms var(--ease-brand) both',animationDelay:(d++*450)+'ms'}}>{s}</div>)}
-        </div>;
-        return row;
-      })}
+function WhyNotTheAI(){
+  const cards=[
+    ['The same way every time','Your AI does not work out the joins, the cleaning or the personal-data removal on its own. Your team wrote those steps once. Every request runs the same steps, and swapping the AI model does not change how a number is made.'],
+    ['Every number can be explained','Each result carries how it was made: which sources were read, which steps ran, and which version of each. When someone challenges a number, you show the steps, not a chat log. Tab 3 of the demo above shows it for the risk score.'],
+    ['You decide which steps exist','Your AI gets only what a step gives back. Which steps are approved for use is a decision your team makes, in code. Free to use. Pay to control who may run which step, and to see what ran.']];
+  return <section id="same-steps" style={{padding:'36px 24px 48px',maxWidth:1200,margin:'0 auto'}}>
+    <SectionHeader title={<span>Same steps, every time.<br/>Not the AI&rsquo;s best guess.</span>} lede="Let your AI do the data work itself and it will join, clean and filter a little differently each time. Nobody can say afterwards how a number was made, and it needs access to everything. With mloda your AI asks by name, and steps your team wrote do the work." align="center"/>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20,marginTop:40}}>
+      {cards.map(([h,p],i)=><div key={h} style={{background:i===1?'var(--ink-900)':'var(--paper-1)',color:i===1?'var(--text-on-dark)':'var(--text-ink)',border:'1px solid var(--line-light)',borderRadius:'var(--radius-panel)',padding:'26px 28px',display:'flex',flexDirection:'column',gap:10}}>
+        <div style={{fontFamily:'var(--font-mono)',fontSize:11,letterSpacing:'0.08em',textTransform:'uppercase',color:i===1?'var(--green-400)':'var(--accent)'}}>{['same steps','shown, not guessed','your call'][i]}</div>
+        <h3 style={{margin:0,fontSize:21,fontWeight:600,lineHeight:1.25}}>{h}</h3>
+        <p style={{margin:0,fontSize:15,lineHeight:1.55,color:i===1?'var(--text-on-dark-2)':'var(--text-muted)'}}>{p}</p>
+      </div>)}
     </div>
-    
-    <PluginAnimOptions/>
   </section>;
 }
-function HowItWorks(){
-  const steps=[['1','Connect what you already have','Wrap your DB, API, or files in a FeatureGroup - a small plugin, not a rewrite. Set it up once, reuse it everywhere.','connect'],
-    ['2','Let your agent ask','Agents declare features by name - no pipeline code, no glue. Need processing? Add a suffix: __scored, __aggregated, and more.','declare'],
-    ['3','Get data, fully traced','mloda resolves the dependency chain on your compute engine and returns results with lineage built in.','resolve']];
-  return <section id="how-it-works" style={{padding:'0 24px 80px',maxWidth:1200,margin:'0 auto'}}>
-    <p style={{margin:'-14px 0 48px',fontSize:'var(--text-body-size)',lineHeight:'var(--leading-body)',color:'var(--text-muted)',textAlign:'center'}}><span style={{color:'var(--accent)',fontWeight:600}}>mloda</span> fits into your existing stack - connect, ask, get traced data.<br/>Three steps to wire it in.</p>
-    <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20}}>
-      {steps.map(([n,h,p,g])=><div key={n} style={{background:'var(--paper-1)',border:'1px solid var(--line-light)',borderRadius:'var(--radius-card)',overflow:'hidden',display:'flex',flexDirection:'column'}}>
-        <div style={{padding:'18px 18px 0'}}><StepGraphic kind={g}/></div>
-        <div style={{padding:24,display:'flex',flexDirection:'column',gap:8}}>
-          <div style={{display:'flex',gap:10,alignItems:'baseline'}}>
-            <span style={{fontFamily:'var(--font-mono)',fontSize:13,color:'var(--accent)',fontWeight:500}}>{n}</span>
-            <h3 style={{margin:0,fontSize:20,fontWeight:600}}>{h}</h3>
-          </div>
-          <p style={{margin:0,fontSize:15,lineHeight:1.5,color:'var(--text-muted)'}}>{p}</p>
-        </div>
+function TraceAndLane(){
+  const M=({t})=><span style={{fontFamily:'var(--font-mono)',fontSize:13.5,color:'var(--green-400)'}}>{t}</span>;
+  const cards=[
+    ['Named once, asked for everywhere',<span><M t="risk_grade"/>, <M t="income__sum_aggr"/>, <M t="docs__embedded"/>: the names your team gives its steps become the words every app and every AI in your company asks in. Twenty steps become two hundred, and nothing is rebuilt. The next question is asked in words that already exist.</span>],
+    ['Not another pipeline tool','mloda does not schedule, store, or serve. It is the step in between: it computes what a request needs, from your sources, on your engine (Pandas, Polars, Spark, DuckDB), and hands the result to your AI. Keep Airflow, dbt, or Feast. They dock on.']];
+  return <section id="trace" style={{padding:'12px 24px 56px',maxWidth:1200,margin:'0 auto'}}>
+    <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
+      {cards.map(([h,p],i)=><div key={h} style={{background:i===0?'var(--ink-900)':'var(--paper-1)',color:i===0?'var(--text-on-dark)':'var(--text-ink)',border:'1px solid var(--line-light)',borderRadius:'var(--radius-panel)',padding:'28px 30px'}}>
+        <h3 style={{margin:0,fontSize:21,fontWeight:600}}>{h}</h3>
+        <p style={{margin:'10px 0 0',fontSize:15,lineHeight:1.55,color:i===0?'var(--text-on-dark-2)':'var(--text-muted)'}}>{p}</p>
       </div>)}
     </div>
   </section>;
@@ -284,20 +329,20 @@ function Trusted({bright}){
   const scroll=dir=>railRef.current&&railRef.current.scrollBy({left:dir*480,behavior:'smooth'});
   return <section id="built-with-mloda" style={{padding:'48px 0 80px',background:bright?'var(--paper-0)':'var(--paper-1)'}}>
     <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px',position:'relative'}}>
-      <SectionHeader title="Use cases" align="center"/>
+      <SectionHeader title="Built on mloda" lede="Ready-made sets of steps for one kind of data. Free and open source, use them as they are or swap single steps." align="center"/>
       <div style={{display:'flex',gap:10,position:'absolute',right:24,bottom:0}}>
         <IconButton iconSrc={A+'icons/arrow-right-line.svg'} label="Prev" style={{transform:'scaleX(-1)'}} onClick={()=>scroll(-1)}/>
         <IconButton iconSrc={A+'icons/arrow-right-line.svg'} label="Next" onClick={()=>scroll(1)}/>
       </div>
     </div>
     <div ref={railRef} style={{display:'flex',gap:20,padding:'44px 24px 0',overflowX:'auto',maxWidth:1200,margin:'0 auto',boxSizing:'border-box',scrollbarWidth:'none'}}>
-      <UseCaseCard repo="open-kgo" eyebrow="open-kgo · Knowledge graphs" title="Let agents use knowledge graphs" desc="An agent answers questions across knowledge sources - company graphs, software inventories, even its own memory - with one simple request. Runs fully offline: nothing leaves your machine." style={{width:390,flexShrink:0}}
+      <UseCaseCard repo="open-kgo" eyebrow="open-kgo · Knowledge graphs" title="Steps for knowledge graphs" desc="Your AI answers questions across knowledge sources: company graphs, software inventories, even its own memory. Runs fully offline, nothing leaves your machine." style={{width:390,flexShrink:0}}
         art={<svg viewBox="0 0 390 150" style={{width:'100%',height:'100%'}}>
           {[[70,75],[150,38],[150,112],[240,75],[320,40],[320,110]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r="11" fill={i===3?'var(--accent)':'none'} stroke="var(--green-400)" strokeWidth="2"/>)}
           {[[70,75,150,38],[70,75,150,112],[150,38,240,75],[150,112,240,75],[240,75,320,40],[240,75,320,110]].map(([a,b,c,d],i)=><line key={i} x1={a} y1={b} x2={c} y2={d} stroke="var(--green-400)" strokeWidth="1.4" opacity=".55"/>)}
           <text x="195" y="140" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="10" fill="var(--text-on-dark-2)">knowledge graphs · inventories · agent memory</text>
         </svg>}/>
-      <UseCaseCard repo="rag_integration" eyebrow="rag_integration · RAG pipelines" title="A document chatbot, declared in one line" desc="Point it at your documents: personal data is removed, texts are split and prepared, and the right passages reach your chatbot. Every step is a plugin you can swap." style={{width:390,flexShrink:0}}
+      <UseCaseCard repo="rag_integration" eyebrow="rag_integration · Documents for AI" title="Steps for documents" desc="Point it at your documents. Personal data is removed, texts are cut into pieces and made searchable, and the right passages reach your AI. Each step is a small piece of code you can swap." style={{width:390,flexShrink:0}}
         art={<svg viewBox="0 0 390 150" style={{width:'100%',height:'100%'}}>
           {['docs','pii','chunk','dedup','embed'].map((t,i)=><g key={t}>
             <rect x={22+i*72} y="58" width="58" height="34" rx="9" fill={i===4?'var(--accent)':'none'} stroke="var(--green-400)" strokeWidth="1.6"/>
@@ -306,7 +351,7 @@ function Trusted({bright}){
           </g>)}
           <text x="195" y="128" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="10" fill="var(--text-on-dark-2)">clean · split · search · answer</text>
         </svg>}/>
-      <UseCaseCard repo="mloda-plugin-govdata" eyebrow="govdata · Open government data" title="Public-sector data, agent-ready" desc="German open government data made usable for AI agents - ask for a dataset, get it clean and traceable. Funded by the German Federal Ministry of Research via the Prototype Fund." style={{width:390,flexShrink:0}}
+      <UseCaseCard repo="mloda-plugin-govdata" eyebrow="govdata · Open government data" title="Steps for public data" desc="German open government data, ready for your AI. Ask for a dataset by name, get it back clean, and see where every value came from. Funded by the German Federal Ministry of Research via the Prototype Fund." style={{width:390,flexShrink:0}}
         art={<svg viewBox="0 0 390 150" style={{width:'100%',height:'100%'}}>
           <path d="M155 52 L195 30 L235 52 Z" fill="none" stroke="var(--green-400)" strokeWidth="2"/>
           {[0,1,2,3].map(i=><rect key={i} x={160+i*19} y="58" width="9" height="34" fill="none" stroke="var(--green-400)" strokeWidth="1.6"/>)}
@@ -314,18 +359,11 @@ function Trusted({bright}){
           {[[70,60],[70,86],[298,60],[298,86]].map(([x,y],i)=><g key={i}><rect x={x-28} y={y-9} width="56" height="18" rx="5" fill="none" stroke="var(--green-400)" strokeWidth="1.2" opacity=".6"/><line x1={x+(x<195?28:-28)} y1={y} x2={x<195?148:242} y2="75" stroke="var(--green-400)" strokeWidth="1.2" opacity=".45"/></g>)}
           <text x="195" y="133" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="10" fill="var(--text-on-dark-2)">Prototype Fund · BMFTR · Apache-2.0</text>
         </svg>}/>
-      <UseCaseCard repo="mloda" eyebrow="credit risk · Financial services" title="A credit risk agent, fully auditable" desc="An AI agent asks for credit risk scores - mloda pools the data sources, runs the calculations, and returns scores with a full audit trail for every value." style={{width:390,flexShrink:0}}
-        art={<svg viewBox="0 0 390 150" style={{width:'100%',height:'100%'}}>
-          {['ask','pool','score'].map((t,i)=><g key={t}>
-            <rect x={40+i*95} y="55" width="70" height="34" rx="9" fill={i===2?'var(--accent)':'none'} stroke="var(--green-400)" strokeWidth="1.6"/>
-            <text x={75+i*95} y="76" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="11" fill={i===2?'#fff':'var(--green-400)'}>{t}</text>
-            {i<2&&<line x1={110+i*95} y1="72" x2={135+i*95} y2="72" stroke="var(--green-400)" strokeWidth="1.4" opacity=".55"/>}
-          </g>)}
-          <path d="M330 55 v34 h24" fill="none" stroke="var(--green-400)" strokeWidth="1.4" opacity=".55"/>
-          <text x="195" y="128" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="10" fill="var(--text-on-dark-2)">ask · pool · score · audit trail</text>
-        </svg>}/>
     </div>
-    <div style={{marginTop:56}}><LogoWall names={['Credit risk agent','Climate risk agent','Customer service agent','RAG system','Context assembly','Openclaw-like agent']}/></div>
+    <div style={{marginTop:56}}>
+      <p style={{margin:'0 0 18px',textAlign:'center',fontFamily:'var(--font-mono)',fontSize:11,letterSpacing:'0.08em',textTransform:'uppercase',color:'var(--text-muted)'}}>What teams build with the steps</p>
+      <LogoWall names={['Credit risk agent','Climate risk agent','Customer service agent','Document chatbot','Context for coding agents','Reporting agent']}/>
+    </div>
   </section>;
 }
 function Stories(){
@@ -356,14 +394,14 @@ function CopyPromptButton({label,prompt,popup,hint}){
 }
 function GetStarted(){
   const AGENT_PROMPT='Wire mloda into this project: pip install mloda, then wrap my existing data sources (databases, files, APIs) as FeatureGroups and replace ad-hoc data-fetching code with declarative mlodaAPI.run() feature requests. Docs: https://github.com/mloda-ai/mloda';
-  const opts=[["Install it yourself","Copy one command - pip install mloda and declare your first Feature in minutes.","pip install","pip"],["Explore the source","Star the repo, read the code, open an issue - mloda is built in the open.","View on GitHub","https://github.com/mloda-ai/mloda"],["Let your coding agent do it","Copy one prompt - your coding agent installs mloda and wires it into your project.","Copy the prompt","agent"]];
+  const opts=[["Install it yourself","Copy one command. pip install mloda, then ask for your first result by name in minutes.","pip install","pip"],["Read the docs","Installation, the first steps, and the list of ready-made steps you can use today.","Open the docs",DOCS],["Let your coding agent do it","Copy one prompt. Your coding agent installs mloda and connects your data sources.","Copy the prompt","agent"]];
   return <section style={{padding:'48px 24px 68px',maxWidth:1200,margin:'0 auto'}}>
-    <SectionHeader title="Get started" lede="Three ways in - install the library, explore the source, or let your coding agent wire it up. Same library, from notebook to production." align="center"/>
+    <SectionHeader title="Get started" lede="Three ways in: install it, read the docs, or let your coding agent do it. Same library, from notebook to production." align="center"/>
     <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20,marginTop:52}}>
       {opts.map(([h,p,cta,href])=><div key={h} style={{background:'var(--paper-1)',border:'1px solid var(--line-light)',borderRadius:'var(--radius-card)',padding:28,display:'flex',flexDirection:'column',gap:12}}>
         <h3 style={{margin:0,fontSize:'var(--text-h3)',fontWeight:600}}>{h}</h3>
         <p style={{margin:0,fontSize:15,lineHeight:1.5,color:'var(--text-muted)',flex:1}}>{p}</p>
-        <div>{href==='pip'?<CopyPromptButton label={cta} prompt="pip install mloda" popup="pip install mloda" hint="Click to copy the install command."/>:href==='agent'?<CopyPromptButton label={cta} prompt={AGENT_PROMPT} popup="Wire in mloda!"/>:<Button label={cta} variant="ink" size="sm" href={href||undefined}/>}</div>
+        <div>{href==='pip'?<CopyPromptButton label={cta} prompt="pip install mloda" popup="pip install mloda" hint="Click to copy the install command."/>:href==='agent'?<CopyPromptButton label={cta} prompt={AGENT_PROMPT} popup="Add mloda to your project"/>:<Button label={cta} variant="ink" size="sm" href={href||undefined}/>}</div>
       </div>)}
     </div>
   </section>;
@@ -373,15 +411,15 @@ function GradientCTA(){
     <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',opacity:.3,mixBlendMode:'overlay'}}><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
     <div style={{position:'relative'}}>
       <img src={A+'mloda-wordmark.svg'} alt="mloda" style={{height:72,filter:'brightness(0) invert(1)'}}/>
-      <h2 style={{margin:'30px 0 0',fontSize:'clamp(30px,3.4vw,44px)',fontWeight:600,letterSpacing:'var(--tracking-display)'}}>Start building with us today.</h2>
+      <h2 style={{margin:'30px 0 0',fontSize:'clamp(30px,3.4vw,44px)',fontWeight:600,letterSpacing:'var(--tracking-display)'}}>Ask your AI something new.<br/>Without a new data project.</h2>
+      <p style={{margin:'20px auto 0',maxWidth:600,fontSize:16,lineHeight:1.6,color:'rgba(255,255,255,.88)'}}>Not an LLM with more data stuffed into its context. An LLM with a data system it can operate.</p>
       <div style={{display:'flex',gap:12,justifyContent:'center',marginTop:34}}>
         <Button label="Talk to us" variant="white" href="https://calendly.com/hello-mloda/30min"/>
-        <Button label="Try for free" variant="ink" href="https://github.com/mloda-ai/mloda"/>
+        <Button label="Free on GitHub" variant="ink" href="https://github.com/mloda-ai/mloda"/>
       </div>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(3,minmax(200px,260px))',gap:16,justifyContent:'center',marginTop:72}}>
-        {[['Free','Full open-source library. Every source, every feature, Apache-2.0 licensed.','View on GitHub','https://github.com/mloda-ai/mloda'],
-          ['Plugin Bundles','Curated connector and transform packs for common stacks.','Coming soon',null],
-          ['Customized Contract','Support, SLAs, and integrations tailored to your organization.','Contact','https://calendly.com/hello-mloda/30min']].map(([h,p,cta,href])=>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(2,minmax(220px,300px))',gap:16,justifyContent:'center',marginTop:72}}>
+        {[['Open source','Free to use. The library, all steps that ship with it, and the sets built on it. Apache-2.0.','Read the docs',DOCS],
+          ['Custom','Pay to control. We build and support your steps and connections, and set up who may run which step, and for every number what ran and what it read.','Talk to us','https://calendly.com/hello-mloda/30min']].map(([h,p,cta,href])=>
         <div key={h} style={{background:'rgba(255,255,255,.10)',border:'1px solid rgba(255,255,255,.28)',borderRadius:'var(--radius-card)',padding:'24px 22px',display:'flex',flexDirection:'column',gap:10,textAlign:'left',backdropFilter:'blur(4px)'}}>
           <h3 style={{margin:0,fontSize:19,fontWeight:600}}>{h}</h3>
           <p style={{margin:0,fontSize:13.5,lineHeight:1.5,color:'rgba(255,255,255,.8)',flex:1}}>{p}</p>
@@ -406,17 +444,20 @@ function App(){
     '--font-sans':`'${t.font}',Helvetica,Arial,sans-serif`,fontFamily:'var(--font-sans)'};
   const motion={calm:{slide:7000,wall:55},regular:{slide:2800,wall:30},energetic:{slide:2100,wall:14}}[t.motion];
   return <div style={vars}>
-  <a href="https://github.com/mloda-ai/mloda" target="_blank" style={{display:'block',background:'var(--accent)',color:'#fff',textAlign:'center',padding:'5px 12px',fontSize:13,fontFamily:'var(--font-mono)',textDecoration:'none'}}>mloda 0.10.0 is out — free and open source under Apache-2.0 →</a>
-  <Navbar logoSrc={A+'mloda-wordmark-green.svg'} items={['Products','Features','Docs','GitHub','About']} cta="Try mloda now" ctaHref="https://github.com/mloda-ai/mloda"/>
+  <a href="https://github.com/mloda-ai/mloda/releases/tag/0.11.0" target="_blank" style={{display:'block',background:'var(--accent)',color:'#fff',textAlign:'center',padding:'5px 12px',fontSize:13,fontFamily:'var(--font-mono)',textDecoration:'none'}}>mloda 0.11.0 is out. Free and open source under Apache-2.0 →</a>
+  <Navbar logoSrc={A+'mloda-wordmark-green.svg'} items={['How it works','Use cases','Docs','GitHub']} cta="Free on GitHub" ctaHref="https://github.com/mloda-ai/mloda"/>
   <Hero/>
   <ProductPanel interval={motion.slide} bright={t.panel==='bright'}/>
+  <ProblemSplit/>
+  <Ask/>
+  <StepInCode/>
+  <WhyNotTheAI/>
+  <TraceAndLane/>
   <DataSources logoWall={<LogoWall names={['CSV','JSON','Parquet','Feather','ORC','Plain text','Markdown','YAML','SQLite','API / runtime data']} speed={motion.wall}/>}/>
-  <Plugins/>
   <Trusted bright={t.panel==='bright'}/>
   <GetStarted/>
-  <HowItWorks/>
   <GradientCTA/>
-  <Footer logoSrc={A+'mloda-wordmark.svg'} columns={{Product:[['How it works','#how-it-works'],['Lineage','#lineage'],['Use cases','#built-with-mloda']],Developers:[['Docs','https://github.com/mloda-ai/mloda#readme'],['Quickstart',copyAgentPrompt],['GitHub','https://github.com/mloda-ai/mloda'],['PyPI','https://pypi.org/project/mloda/']],Company:['About','Blog','Contact'],Legal:['Imprint','Privacy Policy','Terms']}}/>
+  <Footer logoSrc={A+'mloda-wordmark.svg'} columns={{Product:[['How it works','#how-it-works'],['Demo','#lineage'],['Built on mloda','#built-with-mloda']],Developers:[['Docs',DOCS],['Quickstart',copyAgentPrompt],['GitHub','https://github.com/mloda-ai/mloda'],['PyPI','https://pypi.org/project/mloda/']],Company:['About','Blog','Contact'],Legal:['Imprint','Privacy Policy','Terms']}}/>
   <TweaksPanel>
     <TweakSection label="Brand"/>
     <TweakColor label="Accent" value={t.accent}
